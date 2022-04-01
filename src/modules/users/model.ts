@@ -2,6 +2,7 @@ import { Field, ObjectType } from "type-graphql";
 import { Types } from "mongoose";
 import { getModelForClass, prop } from "@typegoose/typegoose";
 import bcrypt from "bcryptjs";
+import { JWT } from "../../utils";
 
 @ObjectType()
 export class User {
@@ -32,6 +33,20 @@ export class User {
   async comparePassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
   }
+
+  generateJWT(): string {
+    return JWT.generateJWT({
+      _id: this._id.toString(),
+      email: this.email,
+      name: this.name,
+    });
+  }
+}
+
+@ObjectType()
+export class UserWithToken extends User {
+  @Field(() => String)
+  accessToken: string;
 }
 
 const UserModel = getModelForClass(User, {
