@@ -3,18 +3,25 @@ import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
 
 import { UserResolver } from "./modules/users";
+import { ProjectResolver } from "./modules/projects";
 import connectDB from "./db";
 import { Logger } from "./utils";
 
 async function initialize() {
   await connectDB();
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, ProjectResolver],
   });
 
   const server = new ApolloServer({
     schema,
-    context: ({ req }) => ({ req }),
+    context({ req }) {
+      const bearerToken = req.headers["authorization"];
+      if (!bearerToken || typeof bearerToken !== "string")
+        return { token: null };
+      const token = bearerToken.split(" ")[1];
+      return { token };
+    },
   });
 
   server
