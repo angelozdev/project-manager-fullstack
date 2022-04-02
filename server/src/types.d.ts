@@ -1,6 +1,5 @@
 import { RequestOptions } from "https";
 import { Types } from "mongoose";
-import { TypeResolver } from "type-graphql";
 
 export interface IUser {
   name: string;
@@ -8,9 +7,18 @@ export interface IUser {
   email: string;
   createdAt: Date;
   updatedAt: Date;
-  _id?: TypeResolver.ObjectId;
+  _id?: Types.ObjectId;
 }
 
 export interface IContext {
-  req: RequestOptions;
+  token: string | null;
+  userID: string | null;
+}
+
+export interface DecodedJWT {
+  _id: string;
+  email: string;
+  name: string;
+  iat: number;
+  exp: number;
 }

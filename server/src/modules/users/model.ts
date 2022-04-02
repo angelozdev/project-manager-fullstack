@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import { Types } from "mongoose";
 import { getModelForClass, prop } from "@typegoose/typegoose";
 import bcrypt from "bcryptjs";
@@ -6,7 +6,7 @@ import { JWT } from "../../utils";
 
 @ObjectType()
 export class User {
-  @Field(() => String)
+  @Field(() => ID)
   readonly _id: Types.ObjectId;
 
   @prop({ required: true, trim: true, unique: true })
@@ -36,7 +36,7 @@ export class User {
 
   generateJWT(): string {
     return JWT.generateJWT({
-      _id: this._id.toString(),
+      _id: this._id,
       email: this.email,
       name: this.name,
     });
