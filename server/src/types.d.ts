@@ -10,6 +10,14 @@ export interface IUser {
   _id?: Types.ObjectId;
 }
 
+export interface IProject {
+  name: string;
+  author: Types.ObjectId | IUser;
+  createdAt: Date;
+  updatedAt: Date;
+  _id?: Types.ObjectId;
+}
+
 export interface IContext {
   token: string | null;
   userID: string | null;
