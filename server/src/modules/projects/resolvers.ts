@@ -40,6 +40,7 @@ class ProjectResolver {
     return { ...project.toJSON(), author: user };
   }
 
+  @UseMiddleware(IsAuth)
   @Mutation(() => Project)
   async updateProject(
     @Arg("id") id: string,
@@ -54,6 +55,21 @@ class ProjectResolver {
 
     if (!updatedProject) throw new Error("Project not found");
     return updatedProject;
+  }
+
+  @UseMiddleware(IsAuth)
+  @Mutation(() => String)
+  async deleteProject(
+    @Arg("id") id: string,
+    @Ctx("userID") userID: IContext["userID"]
+  ) {
+    const deletedProject = await ProjectModel.findOneAndDelete({
+      id,
+      author: userID,
+    });
+
+    if (!deletedProject) throw new Error("Project not found");
+    return deletedProject.id;
   }
 }
 

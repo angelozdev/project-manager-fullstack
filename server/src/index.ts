@@ -4,13 +4,14 @@ import { buildSchema } from "type-graphql";
 
 import { UserResolver } from "./modules/users";
 import { ProjectResolver } from "./modules/projects";
+import { TaskResolver } from "./modules/tasks";
 import connectDB from "./db";
 import { Logger } from "./utils";
 
 async function initialize() {
   await connectDB();
   const schema = await buildSchema({
-    resolvers: [UserResolver, ProjectResolver],
+    resolvers: [UserResolver, ProjectResolver, TaskResolver],
   });
 
   const server = new ApolloServer({
