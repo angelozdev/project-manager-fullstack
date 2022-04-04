@@ -18,7 +18,10 @@ class TaskResolver {
     @Arg("projectId") projectId: string,
     @Ctx("userID") userID: string
   ) {
-    const tasks = await TaskModel.find({ project: projectId, author: userID });
+    const tasks = await TaskModel.find({
+      project: projectId,
+      author: userID,
+    }).populate(["project", "author"]);
     return tasks;
   }
 
