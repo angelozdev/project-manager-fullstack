@@ -11,6 +11,7 @@ module.exports = function (api) {
             "@screens": "./src/screens",
             "@features": "./src/features",
             "@constants": "./src/constants",
+            "@apollo-client": "./src/apollo-client",
           },
         },
       ],
