@@ -17,7 +17,7 @@ export class User {
   @Field(() => String)
   name: string;
 
-  @prop({ required: true, trim: true })
+  @prop({ required: true })
   password: string;
 
   @Field(() => Date)

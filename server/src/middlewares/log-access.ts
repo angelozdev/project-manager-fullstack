@@ -3,7 +3,7 @@ import { IContext } from "../types";
 import { Logger } from "../utils";
 
 const LogAccess: MiddlewareFn<IContext> = ({ info }, next) => {
-  Logger.info("LogAccess", info.variableValues["email"], " accessed");
+  Logger.info("LogAccess", info.variableValues.data["email"], " accessed");
   return next();
 };
 

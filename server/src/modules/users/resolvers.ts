@@ -7,7 +7,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { LogAccess } from "../../middlewares";
-import { LogInArgs } from "./arguments";
+import { LogInInput } from "./arguments";
 import { NewUserInput } from "./inputs";
 import UserModel, { UserWithToken, User } from "./model";
 
@@ -25,8 +25,8 @@ class UserResolver {
   }
 
   @UseMiddleware(LogAccess)
-  @Query(() => UserWithToken)
-  async logIn(@Args() { email, password }: LogInArgs) {
+  @Mutation(() => UserWithToken)
+  async logIn(@Arg("data") { email, password }: LogInInput) {
     const user = await UserModel.findOne({ email });
     if (!user) throw new Error("User not found");
     const isValid = await user.comparePassword(password);

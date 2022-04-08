@@ -3,15 +3,19 @@ module.exports = function (api) {
   return {
     presets: ["babel-preset-expo"],
     plugins: [
+      "@babel/plugin-proposal-export-namespace-from",
       [
         "module-resolver",
         {
           root: ["./"],
           alias: {
-            "@screens": "./src/screens",
-            "@features": "./src/features",
-            "@constants": "./src/constants",
             "@apollo-client": "./src/apollo-client",
+            "@constants": "./src/constants",
+            "@features": "./src/features",
+            "@features": "./src/features",
+            "@hooks": "./src/hooks",
+            "@screens": "./src/screens",
+            "@utils": "./src/utils",
           },
         },
       ],
