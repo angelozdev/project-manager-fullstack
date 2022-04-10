@@ -15,6 +15,9 @@ import UserModel, { UserWithToken, User } from "./model";
 class UserResolver {
   @Mutation(() => User)
   async signUp(@Arg("data") { email, name, password }: NewUserInput) {
+    const isAlreadyExist = await UserModel.findOne({ email });
+    if (isAlreadyExist) throw new Error("User already exist");
+
     const user = new UserModel();
     user.email = email;
     user.password = await user.hashPassword(password);

@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Types } from "mongoose";
-import { getModelForClass, prop } from "@typegoose/typegoose";
+import { getModelForClass, Prop } from "@typegoose/typegoose";
 import bcrypt from "bcryptjs";
 import { JWT } from "../../utils";
 
@@ -9,15 +9,15 @@ export class User {
   @Field(() => ID)
   readonly _id: Types.ObjectId;
 
-  @prop({ required: true, trim: true, unique: true })
   @Field(() => String)
+  @Prop({ required: true, trim: true, unique: true })
   email: string;
 
-  @prop({ required: true, trim: true })
   @Field(() => String)
+  @Prop({ required: true, trim: true })
   name: string;
 
-  @prop({ required: true })
+  @Prop({ required: true })
   password: string;
 
   @Field(() => Date)

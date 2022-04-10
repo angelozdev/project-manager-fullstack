@@ -10,7 +10,8 @@ module.exports = function (api) {
           root: ["./"],
           alias: {
             "@apollo-client": "./src/apollo-client",
-            "@constants": "./src/constants",
+            "@consts": "./src/constants",
+            "@contexts": "./src/contexts",
             "@features": "./src/features",
             "@features": "./src/features",
             "@hooks": "./src/hooks",

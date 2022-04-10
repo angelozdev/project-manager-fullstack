@@ -24,11 +24,13 @@ export default function LoginForm() {
   const navigation = useNavigation<LoginStackProps["navigation"]>();
   const [showPassword, handleTogglePassword] = useShowPassword();
   const [values, setValues] = React.useState(defaultValues);
-  const [login, { data, loading }] = useLogin({ data: values });
+  const [handleLogin, { loading }] = useLogin({ data: values });
 
   const handleValuesChange = (name: string) => (value: string) => {
     setValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
+
+  const areFieldsFilled = values.email.length && values.password.length;
 
   return (
     <View>
@@ -42,6 +44,7 @@ export default function LoginForm() {
           variant="underlined"
           _focus={{ borderBottomColor: "gray.400" }}
           placeholder="johndoe@mail.com"
+          keyboardType="email-address"
         />
       </FormControl>
 
@@ -53,6 +56,7 @@ export default function LoginForm() {
           onChangeText={handleValuesChange("password")}
           InputRightElement={
             <Pressable
+              accessibilityRole="button"
               onPress={handleTogglePassword}
               _pressed={{ opacity: 0.8 }}
             >
@@ -71,7 +75,8 @@ export default function LoginForm() {
 
       <Button
         isLoading={loading}
-        onPress={() => login()}
+        isDisabled={!areFieldsFilled}
+        onPress={handleLogin}
         colorScheme="gray"
         rounded="full"
         mb={4}

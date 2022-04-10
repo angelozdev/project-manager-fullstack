@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 // hooks
 import useSignUp from "./use-signup";
 import { useShowPassword } from "@hooks";
+import { toasts } from "@utils";
 
 const defaultValues = {
   email: "",
@@ -24,12 +25,25 @@ const defaultValues = {
 export default function SignUpForm() {
   const [showPassword, handleTogglePassword] = useShowPassword();
   const [values, setValues] = React.useState(defaultValues);
-  const [signup, { loading }] = useSignUp({ data: values });
+  const [signup, { loading, data, reset }] = useSignUp({ data: values });
   const navigation = useNavigation<SignupStackProps["navigation"]>();
 
   const handleValuesChange = (name: string) => (value: string) => {
     setValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
+
+  const handleSignup = () => {
+    signup({
+      onError: reset,
+      onCompleted: () => {
+        toasts.onSuccess("Registro exitoso");
+        navigation.navigate("Login");
+      },
+    });
+  };
+
+  const areFieldsFilled =
+    values.email.length && values.password.length && values.name.length;
 
   return (
     <View>
@@ -84,8 +98,9 @@ export default function SignUpForm() {
       </FormControl>
 
       <Button
-        onPress={() => signup()}
+        onPress={handleSignup}
         isLoading={loading}
+        isDisabled={!areFieldsFilled}
         colorScheme="gray"
         rounded="full"
         mb={4}

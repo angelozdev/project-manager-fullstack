@@ -6,11 +6,15 @@
     "paths": {
       "@apollo-client": ["./src/apollo-client/index.ts"],
       "@apollo-client/*": ["./src/apollo-client/*"],
+      "@consts": ["./src/constants/index.ts"],
+      "@contexts/*": ["./src/contexts/*"],
       "@features/*": ["./src/features/*"],
       "@hooks": ["./src/hooks/index.ts"],
       "@screens": ["./src/screens/index.ts"],
       "@utils": ["./src/utils/index.ts"],
       "@utils/*": ["./src/utils/*"]
     }
-  }
+  },
+  "include": ["./**/*.d.ts"],
+  "exclude": ["node_modules"]
 }

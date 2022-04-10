@@ -14,3 +14,11 @@ export function onError(message: string) {
     status: "error",
   });
 }
+
+export function onSuccess(message: string) {
+  Toast.show({
+    ...defaultOptions,
+    title: message,
+    status: "success",
+  });
+}
