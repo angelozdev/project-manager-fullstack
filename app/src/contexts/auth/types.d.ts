@@ -3,6 +3,7 @@ interface IUser {
   name: string;
   email: string;
   _id: string;
+  refreshToken: string;
 }
 
 interface IUserJWT extends IUser {

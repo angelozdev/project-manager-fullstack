@@ -1,4 +1,3 @@
-import React from "react";
 import { mutations, queries } from "@apollo-client";
 import { useMutation } from "@apollo/client";
 import { toasts } from "@utils";
@@ -28,6 +27,12 @@ export default function useCreateProject(name: string) {
       },
       onCompleted: ({ createProject }) => {
         toasts.onSuccess(`Project '${createProject.name}' created`);
+      },
+      optimisticResponse: {
+        createProject: {
+          _id: Math.random().toString(36).replace(/\./g, ""),
+          name,
+        },
       },
     }
   );

@@ -5,7 +5,7 @@ import { JWT } from "../utils";
 const IsAuth: MiddlewareFn<IContext> = async ({ context }, next) => {
   const { token } = context;
   if (!token || typeof token !== "string") throw new Error("No token provided");
-  const { _id } = JWT.decodeJWT(token) as DecodedJWT;
+  const { _id } = JWT.decodeJWT<DecodedJWT>(token);
   context.userID = _id;
   return next();
 };

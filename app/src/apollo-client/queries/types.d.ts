@@ -20,3 +20,13 @@ type GetTasksByProjectIdData = {
 type GetTasksByProjectIdVars = {
   projectId: string;
 };
+
+type GetAcessTokenData = {
+  refreshToken: {
+    accessToken: string;
+  };
+};
+
+type GetAcessTokenVars = {
+  refreshToken: string;
+};

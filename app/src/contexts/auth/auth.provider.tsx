@@ -5,6 +5,7 @@ import JWTDecode from "jwt-decode";
 import { SecureStoreItems } from "@consts";
 import { secureStoreUtils } from "@utils";
 import AuthContext from "./auth.context";
+import useGetAccessToken from "@features/auth/use-get-access-token";
 
 interface Props {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ interface Props {
 
 function AuthProvider({ children }: Props) {
   const [user, setUser] = React.useState<IUser | null>(null);
+  const accessToken = useGetAccessToken(user?.refreshToken);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const handleSetUser = React.useCallback(async (user: IUser | null) => {
@@ -59,7 +61,38 @@ function AuthProvider({ children }: Props) {
     getUser();
   }, []);
 
+  React.useEffect(() => {
+    if (!accessToken || !user) return;
+    handleSetUser({
+      ...user,
+      accessToken,
+    });
+  }, [accessToken, user?.refreshToken, handleSetUser]);
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export default AuthProvider;
+
+// const [_, { data, startPolling, stopPolling }] = useLazyQuery<
+// GetAcessTokenData,
+// GetAcessTokenVars
+// >(queries.auth.GET_ACCESS_TOKEN, {
+// onError: (error) => {
+//   toasts.onError(error.message);
+// },
+// variables: {
+//   refreshToken: user?.refreshToken,
+// },
+// onCompleted: (data) => {
+//   if (!data.refreshToken.accessToken || !user) return;
+//   setUser({ ...user, accessToken: data.refreshToken.accessToken });
+// },
+// });
+
+// React.useEffect(() => {
+// if (user?.refreshToken) {
+//   startPolling(1000 * 4 * 60);
+// }
+// return () => stopPolling();
+// }, [user?.refreshToken]);

@@ -7,6 +7,7 @@ export const LOG_IN = gql`
       name
       email
       _id
+      refreshToken
     }
   }
 `;

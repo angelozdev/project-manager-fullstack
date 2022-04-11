@@ -27,6 +27,16 @@ function useCreateTask(newTask: CreateTaskVars["newTask"]) {
           },
         });
       },
+      optimisticResponse: {
+        createTask: {
+          _id: Math.random().toString(36).replace(/\./g, ""),
+          completed: false,
+          createdAt: new Date().toISOString(),
+          name: newTask.name,
+          project: { _id: Math.random().toString(36).replace(/\./g, "") },
+          updatedAt: new Date().toISOString(),
+        },
+      },
     }
   );
 

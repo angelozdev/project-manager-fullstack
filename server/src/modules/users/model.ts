@@ -35,16 +35,37 @@ export class User {
   }
 
   generateJWT(): string {
-    return JWT.generateJWT({
-      _id: this._id,
-      email: this.email,
-      name: this.name,
-    });
+    return JWT.generateJWT(
+      {
+        _id: this._id,
+        email: this.email,
+        name: this.name,
+      },
+      "5m"
+    );
+  }
+
+  generateRefreshToken(): string {
+    return JWT.generateJWT(
+      {
+        _id: this._id,
+      },
+      "1d"
+    );
   }
 }
 
 @ObjectType()
 export class UserWithToken extends User {
+  @Field(() => String)
+  accessToken: string;
+
+  @Field(() => String)
+  refreshToken: string;
+}
+
+@ObjectType()
+export class AccessToken {
   @Field(() => String)
   accessToken: string;
 }
